@@ -10,25 +10,37 @@ template <typename T>
 class PriorityQueue {
 public:
     void push(const T& item, int priority);
-    T* pop();  // Измененный метод
+    T pop();
+    bool empty() const;
 
 private:
-    priority_queue<pair<int, T>, vector<pair<int, T>>, greater<>> queue;
+    vector<pair<int, T>> elements;
 };
 
 template <typename T>
 void PriorityQueue<T>::push(const T& item, int priority) {
-    queue.emplace(priority, item);
+    elements.push_back(make_pair(priority, item));
 }
 
 template <typename T>
-T* PriorityQueue<T>::pop() {
-    if (queue.empty()) {
-        return nullptr; // Возвращаем nullptr, если очередь пуста
+T PriorityQueue<T>::pop() {
+    if (elements.empty()) {
+        cout << "Queue is empty" << endl;
+        return T();
     }
-    T item = queue.top().second;
-    queue.pop();
-    return new T(item); // Возвращаем объект, созданный в куче
+    int minIndex = 0;
+    for (size_t i = 1; i < elements.size(); ++i) {
+        if (elements[i].first < elements[minIndex].first) {
+            minIndex = i;
+        }
+    }
+    T item = elements[minIndex].second;
+    elements.erase(elements.begin() + minIndex);
+    return item;
 }
 
-#endif // PRIORITY_QUEUE_H
+template <typename T>
+bool PriorityQueue<T>::empty() const {
+    return elements.empty();
+}
+#endif
