@@ -19,8 +19,6 @@ int main()
         cout << "Highest priority user: " << user->getName() << endl;
         delete user;
     }
-
-    // Тест базы данных ГАИ
     TrafficViolationDB db;
     db.addViolation("ABC123", "Speeding");
     db.addViolation("XYZ789", "Illegal parking");
