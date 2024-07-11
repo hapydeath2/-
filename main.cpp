@@ -4,6 +4,7 @@
 #include "traffic_violation_db.h"
 
 using namespace std;
+
 int main() {
     // Тест приоритетной очереди
     PriorityQueue<User> userQueue;
@@ -12,9 +13,10 @@ int main() {
     userQueue.push(User("Charlie", 2), 2);
 
     cout << "Priority Queue Test:" << endl;
-    while (!userQueue.empty()) {
-        User user = userQueue.pop();
-        cout << "Highest priority user: " << user.getName() << endl;
+    User* user;
+    while ((user = userQueue.pop()) != nullptr) {
+        cout << "Highest priority user: " << user->getName() << endl;
+        delete user; // Освобождаем выделенную память
     }
 
     // Тест базы данных ГАИ
