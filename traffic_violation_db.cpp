@@ -2,51 +2,66 @@
 #include <iostream>
 #include <fstream>
 
-void TrafficViolationDB::addViolation(const std::string& carNumber, const std::string& violation) {
-    db[carNumber].push_back(violation);
+using namespace std;
+int TrafficViolationDB::findCarIndex(const string& carNumber) const {
+    for (size_t i = 0; i < carNumbers.size(); ++i) {
+        if (carNumbers[i] == carNumber) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void TrafficViolationDB::addViolation(const string& carNumber, const string& violation) {
+    int index = findCarIndex(carNumber);
+    if (index != -1) {
+        violations[index].push_back(violation);
+    }
+    else {
+        carNumbers.push_back(carNumber);
+        violations.emplace_back(vector<string>{violation});
+    }
 }
 
 void TrafficViolationDB::printDatabase() const {
-    for (const auto& entry : db) {
-        std::cout << "Car Number: " << entry.first << std::endl;
-        for (const auto& violation : entry.second) {
-            std::cout << " - " << violation << std::endl;
+    for (size_t i = 0; i < carNumbers.size(); ++i) {
+        cout << "Car Number: " << carNumbers[i] << endl;
+        for (const auto& violation : violations[i]) {
+            cout << " - " << violation << endl;
         }
     }
 }
 
-void TrafficViolationDB::printDataByCarNumber(const std::string& carNumber) const {
-    auto it = db.find(carNumber);
-    if (it != db.end()) {
-        std::cout << "Car Number: " << carNumber << std::endl;
-        for (const auto& violation : it->second) {
-            std::cout << " - " << violation << std::endl;
+void TrafficViolationDB::printDataForCar(const string& carNumber) const {
+    int index = findCarIndex(carNumber);
+    if (index != -1) {
+        cout << "Data for car number " << carNumber << ":" << endl;
+        for (const auto& violation : violations[index]) {
+            cout << " - " << violation << endl;
         }
     }
     else {
-        std::cout << "No data for car number: " << carNumber << std::endl;
+        cout << "No data found for car number " << carNumber << endl;
     }
 }
 
-void TrafficViolationDB::printDataInRange(const std::string& start, const std::string& end) const {
-    for (auto it = db.lower_bound(start); it != db.upper_bound(end); ++it) {
-        std::cout << "Car Number: " << it->first << std::endl;
-        for (const auto& violation : it->second) {
-            std::cout << " - " << violation << std::endl;
+void TrafficViolationDB::printDataForRange(const string& startNumber, const string& endNumber) const {
+    for (size_t i = 0; i < carNumbers.size(); ++i) {
+        if (carNumbers[i] >= startNumber && carNumbers[i] <= endNumber) {
+            cout << "Car Number: " << carNumbers[i] << endl;
+            for (const auto& violation : violations[i]) {
+                cout << " - " << violation << endl;
+            }
         }
     }
 }
 
-void TrafficViolationDB::saveToFile(const std::string& filename) const {
-    std::ofstream file(filename);
-    if (!file) {
-        std::cerr << "Unable to open file: " << filename << std::endl;
-        return;
-    }
-    for (const auto& entry : db) {
-        file << "Car Number: " << entry.first << std::endl;
-        for (const auto& violation : entry.second) {
-            file << " - " << violation << std::endl;
+void TrafficViolationDB::saveToFile(const string& filename) const {
+    ofstream file(filename);
+    for (size_t i = 0; i < carNumbers.size(); ++i) {
+        file << "Car Number: " << carNumbers[i] << endl;
+        for (const auto& violation : violations[i]) {
+            file << " - " << violation << endl;
         }
     }
     file.close();

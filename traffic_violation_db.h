@@ -1,20 +1,23 @@
 #ifndef TRAFFIC_VIOLATION_DB_H
 #define TRAFFIC_VIOLATION_DB_H
 
-#include <string>
-#include <map>
 #include <vector>
+#include <string>
 
+using namespace std;
 class TrafficViolationDB {
 public:
-    void addViolation(const std::string& carNumber, const std::string& violation);
+    void addViolation(const string& carNumber, const string& violation);
     void printDatabase() const;
-    void printDataByCarNumber(const std::string& carNumber) const;
-    void printDataInRange(const std::string& start, const std::string& end) const;
-    void saveToFile(const std::string& filename) const;
+    void printDataForCar(const string& carNumber) const;
+    void printDataForRange(const string& startNumber, const string& endNumber) const;
+    void saveToFile(const string& filename) const;
 
 private:
-    std::map<std::string, std::vector<std::string>> db;
+    vector<string> carNumbers;
+    vector<vector<string>> violations;
+
+    int findCarIndex(const string& carNumber) const;
 };
 
 #endif // TRAFFIC_VIOLATION_DB_H

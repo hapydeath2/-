@@ -1,10 +1,12 @@
 #ifndef PRIORITY_QUEUE_H
 #define PRIORITY_QUEUE_H
-
-#include <queue>
+#include <iostream>
 #include <vector>
+#include <queue>
 #include <functional>
 #include <stdexcept>
+
+using namespace std;
 
 template <typename T>
 class PriorityQueue {
@@ -13,7 +15,7 @@ public:
     T pop();
 
 private:
-    std::priority_queue<std::pair<int, T>, std::vector<std::pair<int, T>>, std::greater<>> queue;
+    priority_queue<pair<int, T>, vector<pair<int, T>>, greater<>> queue;
 };
 
 template <typename T>
@@ -24,7 +26,7 @@ void PriorityQueue<T>::push(const T& item, int priority) {
 template <typename T>
 T PriorityQueue<T>::pop() {
     if (queue.empty()) {
-        throw std::runtime_error("Queue is empty");
+        throw runtime_error("Queue is empty");
     }
     T item = queue.top().second;
     queue.pop();

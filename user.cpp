@@ -1,8 +1,10 @@
 #include "user.h"
+#include <iostream>
 
-User::User(const std::string& name, int age) : name(name), age(age) {}
+using namespace std;
+User::User(const string& name, int age) : name(name), age(age) {}
 
-std::string User::getName() const {
+string User::getName() const {
     return name;
 }
 

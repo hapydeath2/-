@@ -2,16 +2,18 @@
 #define USER_H
 
 #include <string>
+#include <iostream>
 
+using namespace std;
 class User {
 public:
-    User(const std::string& name, int age);
-    std::string getName() const;
+    User(const string& name, int age);
+    string getName() const;
     int getAge() const;
     bool operator<(const User& other) const;
 
 private:
-    std::string name;
+    string name;
     int age;
 };
 

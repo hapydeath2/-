@@ -3,34 +3,34 @@
 #include "user.h"
 #include "traffic_violation_db.h"
 
+using namespace std;
 int main() {
-    // Тестирование очереди с приоритетами
-    PriorityQueue<User> pq;
-    pq.push(User("Alice", 30), 2);
-    pq.push(User("Bob", 25), 1);
-    pq.push(User("Charlie", 35), 3);
+    // Тест приоритетной очереди
+    PriorityQueue<User> userQueue;
+    userQueue.push(User("Alice", 3), 3);
+    userQueue.push(User("Bob", 1), 1);
+    userQueue.push(User("Charlie", 2), 2);
 
-    std::cout << "Priority Queue Test:" << std::endl;
-    std::cout << "Highest priority user: " << pq.pop().getName() << std::endl;
-    std::cout << "Next highest priority user: " << pq.pop().getName() << std::endl;
-    std::cout << "Next highest priority user: " << pq.pop().getName() << std::endl;
+    cout << "Priority Queue Test:" << endl;
+    while (!userQueue.empty()) {
+        User user = userQueue.pop();
+        cout << "Highest priority user: " << user.getName() << endl;
+    }
 
-    // Работа с базой данных ГАИ
+    // Тест базы данных ГАИ
     TrafficViolationDB db;
     db.addViolation("ABC123", "Speeding");
-    db.addViolation("ABC123", "Running a red light");
     db.addViolation("XYZ789", "Illegal parking");
+    db.addViolation("ABC123", "Running a red light");
 
-    std::cout << "\nTraffic Violation Database:" << std::endl;
+    cout << "\nTraffic Violation Database:" << endl;
     db.printDatabase();
 
-    std::cout << "\nData for car number ABC123:" << std::endl;
-    db.printDataByCarNumber("ABC123");
+    cout << "\nData for car number ABC123:" << endl;
+    db.printDataForCar("ABC123");
 
-    std::cout << "\nData for car numbers between ABC000 and ABC999:" << std::endl;
-    db.printDataInRange("ABC000", "ABC999");
-
-    db.saveToFile("violations.txt");
+    cout << "\nData for car numbers between ABC000 and ABC999:" << endl;
+    db.printDataForRange("ABC000", "ABC999");
 
     return 0;
 }
