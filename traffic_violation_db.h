@@ -20,4 +20,4 @@ private:
     int findCarIndex(const string& carNumber) const;
 };
 
-#endif // TRAFFIC_VIOLATION_DB_H
+#endif

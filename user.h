@@ -17,4 +17,4 @@ private:
     int age;
 };
 
-#endif // USER_H
+#endif

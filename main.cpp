@@ -5,18 +5,19 @@
 
 using namespace std;
 
-int main() {
-    // Тест приоритетной очереди
-    PriorityQueue<User> userQueue;
-    userQueue.push(User("Alice", 3), 3);
-    userQueue.push(User("Bob", 1), 1);
-    userQueue.push(User("Charlie", 2), 2);
+int main()
+{
+    PriorityQueue<User*> userQueue;
+    userQueue.push(new User("Alice", 3), 3);
+    userQueue.push(new User("Bob", 1), 1);
+    userQueue.push(new User("Charlie", 2), 2);
 
     cout << "Priority Queue Test:" << endl;
     User* user;
-    while ((user = userQueue.pop()) != nullptr) {
+    while (!userQueue.empty()) {
+        user = userQueue.pop();
         cout << "Highest priority user: " << user->getName() << endl;
-        delete user; // Освобождаем выделенную память
+        delete user;
     }
 
     // Тест базы данных ГАИ
