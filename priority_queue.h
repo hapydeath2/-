@@ -2,17 +2,15 @@
 #define PRIORITY_QUEUE_H
 #include <iostream>
 #include <vector>
-#include <queue>
-#include <functional>
-#include <stdexcept>
 
 using namespace std;
+
 
 template <typename T>
 class PriorityQueue {
 public:
     void push(const T& item, int priority);
-    T pop();
+    T* pop();  // Измененный метод
 
 private:
     priority_queue<pair<int, T>, vector<pair<int, T>>, greater<>> queue;
@@ -24,13 +22,13 @@ void PriorityQueue<T>::push(const T& item, int priority) {
 }
 
 template <typename T>
-T PriorityQueue<T>::pop() {
+T* PriorityQueue<T>::pop() {
     if (queue.empty()) {
-        throw runtime_error("Queue is empty");
+        return nullptr; // Возвращаем nullptr, если очередь пуста
     }
     T item = queue.top().second;
     queue.pop();
-    return item;
+    return new T(item); // Возвращаем объект, созданный в куче
 }
 
 #endif // PRIORITY_QUEUE_H
